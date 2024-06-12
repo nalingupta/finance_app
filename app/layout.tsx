@@ -10,6 +10,8 @@ import {
 
 import "./globals.css";
 import { QueryProvider } from "@/providers/query-providers";
+import { SheetProvider } from "@/providers/sheet-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,10 +26,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider> 
       <html lang="en">
         <body className={inter.className}>
           <QueryProvider>
+            <SheetProvider />
+            <Toaster />
             {children}
           </QueryProvider>
         </body>

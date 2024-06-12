@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { eq } from "drizzle-orm";
+import { createId } from "@paralleldrive/cuid2";
 import { zValidator } from "@hono/zod-Validator";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 
@@ -41,8 +42,16 @@ const app = new Hono()
                 return c.json({error: "Unauthorized"}, 401);
             }
 
-            return c.json({});
+            const [data] = await db.insert(accounts).values({
+                id: createId(),
+                userId: auth.userId,
+                ...values,
+            }).returning();
+
+            return c.json({ data });
         }
     );
 
 export default app;
+
+
